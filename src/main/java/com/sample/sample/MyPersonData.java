@@ -1,6 +1,7 @@
 package com.sample.sample;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "mypersondata")
@@ -16,12 +17,18 @@ public class MyPersonData {
     private long id;
 
     @Column(length = 50, nullable = false)
+    @NotEmpty(message = "必須項目です")
     private String name;
 
     @Column(length = 100, nullable = true)
+    @NotEmpty
+    @Email
     private String mail;
 
     @Column(nullable = true)
+    @NotNull
+    @Min(0)
+    @Max(150)
     private int age;
 
     public MyPersonData() {}
