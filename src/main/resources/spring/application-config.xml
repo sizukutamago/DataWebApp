@@ -36,4 +36,11 @@
 	<jdbc:embedded-database id="dataSource" type="H2">
 		<jdbc:script location="${jdbc.scriptLocation}" />
 	</jdbc:embedded-database>
+
+	<jpa:repositories base-package="com.sample.sample"/>
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory"/>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
 </beans>
