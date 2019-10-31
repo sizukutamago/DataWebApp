@@ -17,7 +17,7 @@ public class MyPersonDataServlet extends BeanAutowiringFilterServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<String> list = repository.getAllName();
+        List<MyPersonData> list = dao.getAllEntity();
         req.setAttribute("entities", list);
         req.getRequestDispatcher("/index.jsp").forward(req, resp);
     }
@@ -25,9 +25,8 @@ public class MyPersonDataServlet extends BeanAutowiringFilterServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
-        String mail = req.getParameter("mail");
 
-        List<MyPersonData> list = repository.findByNameLikeOrMailLike("%" + name + "%", "%" + mail + "%");
+        List<MyPersonData> list = dao.findByName(name);
         req.setAttribute("entities", list);
         req.getRequestDispatcher("/index.jsp").forward(req, resp);
     }

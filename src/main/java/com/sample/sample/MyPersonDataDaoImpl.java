@@ -9,6 +9,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 @Service
@@ -30,8 +33,12 @@ public class MyPersonDataDaoImpl extends AbstractMyPersonDataDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<MyPersonData> getAllEntity() {
-        Query query = manager.createNamedQuery("MyPersonData.getAllEntity");
-        return query.getResultList();
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        CriteriaQuery<MyPersonData> query = builder.createQuery(MyPersonData.class);
+        Root<MyPersonData> root = query.from(MyPersonData.class);
+        query.select(root);
+        List<MyPersonData> list = (List<MyPersonData>) manager.createQuery(query).getResultList();
+        return list;
     }
 
     @Override
@@ -43,8 +50,14 @@ public class MyPersonDataDaoImpl extends AbstractMyPersonDataDao {
 
     @SuppressWarnings("unchecked")
     public List<MyPersonData> findByName(String value) {
-        Query query = manager.createNamedQuery("MyPersonData.findByName").setParameter("value", value);
-        return query.getResultList();
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        CriteriaQuery<MyPersonData> query = builder.createQuery(MyPersonData.class);
+        Root<MyPersonData> root = query.from(MyPersonData.class);
+        query.select(root).where(builder.like(root.get("name").as(String.class), value));
+        Query jpql = manager.createQuery(query);
+        System.out.println(query);
+        List<MyPersonData> list = (List<MyPersonData>)jpql.getResultList();
+        return list;
     }
 
 
