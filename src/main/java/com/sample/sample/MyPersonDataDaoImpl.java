@@ -28,15 +28,22 @@ public class MyPersonDataDaoImpl extends AbstractMyPersonDataDao {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<MyPersonData> getAllEntity() {
-        Query query = manager.createQuery("from MyPersonData");
+        Query query = manager.createNamedQuery("MyPersonData.getAllEntity");
         return query.getResultList();
     }
 
     @Override
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public List<MyPersonData> findByField(String field, String find) {
-        Query query = manager.createQuery("from MyPersonData where " + field + " = '" +  find + "'");
+        Query query = manager.createNamedQuery("from MyPersonData where " + field + " = '" +  find + "'");
+        return query.getResultList();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<MyPersonData> findByName(String value) {
+        Query query = manager.createNamedQuery("MyPersonData.findByName").setParameter("value", value);
         return query.getResultList();
     }
 

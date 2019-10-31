@@ -4,6 +4,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "mypersondata")
+@NamedQueries({
+        @NamedQuery(name = "MyPersonData.getAllEntity", query = "FROM MyPersonData"),
+        @NamedQuery(name = "MyPersonData.findByName", query = "FROM MyPersonData WHERE name = :value")
+})
 public class MyPersonData {
 
     @Id
